@@ -15,21 +15,21 @@ var Plot = function(parentEl, key) {
       width = bbox.width - margin.left - margin.right,
       height = bbox.height - margin.top - margin.bottom
 
-  let x = d3.scaleLinear()
+  var x = d3.scaleLinear()
           .domain(d3.extent(
             lineData.map(d => d[0])
           ))
           .range([0, width])
 
-  let y = d3.scaleLinear()
+  var y = d3.scaleLinear()
           .domain(d3.extent(
             lineData.map(d => d[1])
           ))
           .range([height, 0])
 
-  let line = d3.line()
-        .x((d) => { return x(d[0])})
-        .y((d) => { return y(d[1])})
+var line = d3.line()
+           .x((d) => { return x(d[0])})
+           .y((d) => { return y(d[1])})
 
   let svg = parentEl.select("svg")
     .attr('width', bbox.width)
@@ -37,6 +37,20 @@ var Plot = function(parentEl, key) {
     .append('g')
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")")
+
+   function brushed() {
+     var extent = d3.event.selection.map(x.invert, x);
+      svg.classed("selected", function(d) { return extent[0] <= d[0] && d[0] <= extent[1]; });
+      }
+
+
+function brushcentered() {
+  var dx = x(1) - x(0), // Use a fixed width when recentering.
+      cx = d3.mouse(this)[0],
+      x0 = cx - dx / 2,
+      x1 = cx + dx / 2;
+  d3.select(this.parentNode).call(brush.move, x1 > width ? [width - dx, width] : x0 < 0 ? [0, dx] : [x0, x1]);
+}
 
     svg.append('path')
       .classed('line', true)
@@ -60,6 +74,18 @@ var Plot = function(parentEl, key) {
           .attr("class", "axis-label")
           .attr("transform", "translate(-40," + height/2 + ")," + "rotate(-90)")
           .text("Plot")
+
+
+    var brush = d3.brushX()
+        .extent([[0, 0], [width, height]])
+        .on("start brush", brushed);
+
+   svg.append("g")
+       .call(brush)
+       .call(brush.move, [3, 5].map(x))
+     .selectAll(".overlay")
+       .each(function(d) { d.type = "selection"; }) // Treat overlay interaction as move.
+       .on("mousedown touchstart", brushcentered); // Recenter before brushing.
 }
 
 var KDEPlot = function(parentEl, key){
