@@ -1,0 +1,63 @@
+#charts {
+  position: relative;
+}
+
+.chart-wrapper {
+  /* height: 800px; */
+  /* width: 600px; */
+  /* padding: 0 5px; */
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+}
+
+.chart-wrapper-single {
+  margin: auto;
+  display: flex;
+  flex-flow: column;
+}
+/* For a single, selctable chart */
+#chart {
+  width:600px;
+  height:600px;
+}
+
+.chart {
+  width: 100%;
+  flex: 1
+}
+
+.chart-title {
+  font-size: 16px;
+  text-align: center;
+  padding: 10px;
+  /* background: #efefef; */
+  margin: auto 5px;
+}
+
+.chart-wrapper-single .chart-title {
+  background: none;
+  font-size: 22px;
+}
+
+.chart path {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.chart path.active {
+  stroke-width: 3;
+  stroke: red;
+}
+
+.main-axis-label-y {
+  font-size: 20px;
+  font-weight: bolder;
+  transform: rotate(-90deg);
+  position: absolute;
+}
+
+.axis text {
+  font-size: 1.5em;
+}

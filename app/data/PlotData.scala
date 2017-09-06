@@ -94,7 +94,7 @@ object PlotData{
   implicit val jsonWrites = Json.writes[PlotData]
   def buildFrom(raw: Seq[Run], filterQuery  : Map[String, Seq[String]]): PlotData = {
 
-    val filtered: Seq[Run] = Seq.empty //TODO filters
+    val filtered: Seq[Run] = Seq.empty //TODO filters e.g. "beta>=0.3"
     val inNames: Seq[String] = raw.head.blobs.filter(_._2.isInput).keys.toSeq
     val outNames: Seq[String] = raw.head.blobs.filterNot(_._2.isInput).keys.toSeq
 

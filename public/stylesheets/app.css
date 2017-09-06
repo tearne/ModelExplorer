@@ -1,0 +1,149 @@
+/* GLOBAL */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  color: #3B3C43;
+  cursor: default;
+}
+
+#main {
+  width: 1200px;
+  height: 1200px;
+  margin: 0 auto;
+  background-color: #f6f6f6;
+}
+
+#main h1 {
+  font-weight: 100;
+  font-size: 40px;
+  margin: 5px 0 0 0;
+  padding: 0;
+  letter-spacing: 0;
+}
+
+#main h3 {
+  font-weight: 400;
+  font-size: 32px;
+  margin: 0 0 10px 0;
+  letter-spacing: 0;
+}
+
+/* HEADER */
+#main .header {
+  padding: 21px 28px 28px 28px;
+}
+
+#main .header .logo {
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+#main .header .description {
+  margin-top: 10px;
+  color: #333333;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+#main .header .description div {
+  margin-bottom: 10px;
+}
+
+#charts {
+  position: relative;
+}
+
+.chart-wrapper {
+  /* height: 800px; */
+  /* width: 600px; */
+  /* padding: 0 5px; */
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+}
+
+.chart-wrapper-single {
+  margin: auto;
+  display: flex;
+  flex-flow: column;
+}
+/* For a single, selctable chart */
+#chart {
+  width:100%;
+  height:100%;
+}
+
+.chart {
+  width: 100%;
+  flex: 1
+}
+
+.chart-title {
+  font-size: 16px;
+  text-align: center;
+  padding: 10px;
+  /* background: #efefef; */
+  margin: auto 5px;
+}
+
+.chart-wrapper-single .chart-title {
+  background: none;
+  font-size: 22px;
+}
+
+.chart path {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.chart path.active {
+  stroke-width: 3;
+  stroke: red;
+}
+
+.main-axis-label-y {
+  font-size: 20px;
+  font-weight: bolder;
+  transform: rotate(-90deg);
+  position: absolute;
+}
+
+/* SIDEBAR */
+
+#options {
+  width: 180px;
+  position: absolute
+}
+
+#param-select {
+  width: 100%;
+}
+
+.sidebar h4 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+/* LEGEND */
+
+.legend {
+}
+
+.legend .key-item {
+    display: block;
+    border-left: 16px solid;
+    padding-left: 4px;
+    line-height: 16px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+
+/* DEBUG */
+.outline {
+  border: 1px solid red;
+}
+.outline div {
+  border: 1px solid green;
+}
