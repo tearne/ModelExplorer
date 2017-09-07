@@ -5,35 +5,6 @@ var json
 
 var chartData
 
-let makeLegend = function(labels){
-  console.log(labels)
-
-  let color = d3.scaleOrdinal()
-        .domain(labels)
-        .range(d3[config.colorScale])
-
-  let legend = d3.select('#options')
-  // place the legend to right of charts with 10px margin
-        .style('left', (config.WIDTH + 20) + 'px')
-        .select('.key')
-        .selectAll('.key-item')
-        .data(labels)
-        .enter()
-        .append('div')
-        .attr('class', 'key-item')
-        .text(d => d)
-        .style('border-color', color)
-        .on('mouseover', d => {
-          console.log('you clicked ' + d)
-          d3.selectAll('path#' + d)
-            .classed('active', true)
-        })
-        .on('mouseout', d => {
-          d3.selectAll('path#' + d)
-            .classed('active', false)
-        })
-
-}
 
 let makeFramework = function(){
 
@@ -83,8 +54,8 @@ d3.json(url, function (err, json) {
       //chart = Plot(d3.select("#chart"),'beta')
 
             config.vars.forEach(d => {
-            Plot(d3.select('#chart-' + d.key), d.key)
-            })
+                          Plot(d3.select('#chart-' + d.key), d.key)
+                          })
 
      // makeLegend(chartData.inputs.beta.map(d => d.name))
 
