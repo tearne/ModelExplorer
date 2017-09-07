@@ -82,32 +82,34 @@ object Distribution{
 }
 
 case class PlotData(
-  inputs: Map[String, PlotBlob],
-  outputsRaw: Map[String, PlotBlob],
-  outputsFiltered: Map[String, PlotBlob] = Map.empty,
+  meta: Meta,
+  dataRaw: Map[String, PlotBlob],
+  dataFiltered: Map[String, PlotBlob] = Map.empty,
   queryMap: Map[String, Seq[String]] = Map.empty
 ){
-  assume(outputsFiltered.size == 0 || outputsFiltered.size == outputsRaw.size)
+  assume(dataFiltered.size == 0 || dataFiltered.size == dataRaw.size)
 }
 
 object PlotData{
   implicit val jsonWrites = Json.writes[PlotData]
   def buildFrom(raw: Seq[Run], filterQuery  : Map[String, Seq[String]]): PlotData = {
-
+    assume(raw.map(_.meta).toSet.size == 1) //All reps must have same meta
     val filtered: Seq[Run] = Seq.empty //TODO filters e.g. "beta>=0.3"
-    val inNames: Seq[String] = raw.head.blobs.filter(_._2.isInput).keys.toSeq
-    val outNames: Seq[String] = raw.head.blobs.filterNot(_._2.isInput).keys.toSeq
+    val inNames: Seq[String] = raw.head.meta.inputNames//blobs.filter(_._2.isInput).keys.toSeq
+    val outNames: Seq[String] = raw.head.meta.outputNames//blobs.filterNot(_._2.isInput).keys.toSeq
 
     // Lots of Series -> SeriesBand
     // Lots of Number -> Distribution
 
+    val allFieldNames = inNames ++ outNames //TODO this in the Meta case class?
+
     def buildFrom(rawBlobs: Seq[Run], names: Seq[String]) = {
       names.map{name =>
-        val plotBlob = rawBlobs.head.blobs(name).description match {
+        val plotBlob = rawBlobs.head.data(name).description match {
           case Series.description =>
-            SeriesBand.buildFromSeries(raw.map{_.blobs(name).asInstanceOf[Series]})
+            SeriesBand.buildFromSeries(raw.map{_.data(name).asInstanceOf[Series]})
           case Number.description =>
-            Distribution.buildFromNumbers(raw.map{_.blobs(name).asInstanceOf[Number]})
+            Distribution.buildFromNumbers(raw.map{_.data(name).asInstanceOf[Number]})
 
         }
         name -> plotBlob
@@ -115,8 +117,9 @@ object PlotData{
     }
 
     PlotData(
-      inputs = buildFrom(raw, inNames),
-      outputsRaw = buildFrom(raw, outNames),
+      raw.head.meta,
+      dataRaw = buildFrom(raw, allFieldNames),
+      dataFiltered = buildFrom(raw, Seq.empty), //TODO
       //TODO filtered
       queryMap = filterQuery
     )

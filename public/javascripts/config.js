@@ -1,8 +1,8 @@
 config = {
-  vars: [
-    {key: "beta"},
-    {key: "gamma"},
-  ],
+//  vars: [
+//    {key: "beta"},
+//    {key: "gamma"},
+//  ],
   // For available color-scales see https://bl.ocks.org/pstuffa/3393ff2711a53975040077b7453781a9
   colorScale: 'schemeCategory20',
   WIDTH: 900,

@@ -1,6 +1,7 @@
 var Plot = function(parentEl, key) {
-
-    data = chartData.inputs[key]
+    console.log("Key: "+key)
+    data = chartData.dataRaw[key]
+    console.log(" data "+data)
     let lineData = data.values
 
   //let lineData = chartData.inputs.beta.values

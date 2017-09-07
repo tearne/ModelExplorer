@@ -22,12 +22,12 @@ let makeFramework = function(){
 
   charts = charts.selectAll('.chart-wrapper')
      // .data(chartData.inputs)
-    .data(config.vars)
+    .data(chartData.meta.inputNames)
     .enter()
     .append('div')
     .attr('class', 'chart-wrapper')
     .style('width', chartWidth + 'px').style('height', chartHeight + 'px')
-    .attr('id', d => 'chart-' + d.key)
+    .attr('id', d => 'chart-' + d)
 //    .style('top', (d, i) => (chartHeight * parseInt(i / 3)) + 'px' )
 //    .style('left', (d, i) => (chartWidth * (i % 3)) + 'px')
     .style('top', (d, i) => (chartHeight * parseInt(i)) + 'px' )
@@ -51,12 +51,9 @@ d3.json(url, function (err, json) {
       if(err) throw err
       chartData = json
       makeFramework()
-      //chart = Plot(d3.select("#chart"),'beta')
 
-            config.vars.forEach(d => {
-                          Plot(d3.select('#chart-' + d.key), d.key)
+            chartData.meta.inputNames.forEach(d => {
+                          Plot(d3.select('#chart-' + d), d)
                           })
-
-     // makeLegend(chartData.inputs.beta.map(d => d.name))
 
 });
